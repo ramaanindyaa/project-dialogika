@@ -11,7 +11,7 @@
                             <span class="font-bold text-sm">DIPERCAYA LEBIH DARI 200 PERUSAHAAN</span>
                         </p>
                         <div>
-                            <h1 class="font-extrabold text-[50px] leading-[65px]">Tingkatkan Skills, <br>Get Higher Salary</h1>
+                            <h1 class="font-extrabold text-[50px] leading-[65px]">Upgrade Skills, <br>Get Higher Salary</h1>
                             <p class="leading-7 mt-[10px] text-obito-text-secondary">Materi terbaru disusun oleh professional dan perusahaan besar agar lebih sesuai kebutuhan dan anda lorem dolorsi.</p>
                         </div>
                         <div class="flex items-center gap-[18px]">
