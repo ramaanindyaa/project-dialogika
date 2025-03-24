@@ -47,7 +47,7 @@
                             <a href="{{ route('dashboard.subscriptions') }}">Subscriptions</a>
                         </li>
                         <li class="hover:text-obito-green transition-all duration-300">
-                            <a href="#">Settings</a>
+                            <a href="{{ route('profile.edit') }}">Settings</a>
                         </li>
                         <li class="hover:text-obito-green transition-all duration-300">
 
