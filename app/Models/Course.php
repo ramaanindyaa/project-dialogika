@@ -19,6 +19,7 @@ class Course extends Model
         'about',
         'is_popular',
         'category_id',
+        'difficulty', // Tambahkan ini
     ];
 
     public function setNameAttribute($value)

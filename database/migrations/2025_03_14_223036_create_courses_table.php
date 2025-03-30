@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('about');
             $table->boolean('is_popular');
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->enum('difficulty', ['beginner', 'intermediate', 'advance'])->default('beginner'); // Tambahkan kolom ini
             $table->softDeletes();
             $table->timestamps();
         });

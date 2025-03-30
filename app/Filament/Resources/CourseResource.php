@@ -68,6 +68,16 @@ class CourseResource extends Resource
                     ->searchable()
                     ->preload()
                     ->required(),
+
+                    // Tambahkan ini untuk tingkat kesulitan
+                    Forms\Components\Select::make('difficulty')
+                    ->options([
+                        'beginner' => 'Beginner',
+                        'intermediate' => 'Intermediate',
+                        'advance' => 'Advance',
+                    ])
+                    ->default('beginner')
+                    ->required(),
                 ]),
             ]);
     }
@@ -91,6 +101,11 @@ class CourseResource extends Resource
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseIcon('heroicon-o-x-circle')
                     ->label('Popular'),
+
+                // Tambahkan kolom ini untuk menampilkan tingkat kesulitan
+                Tables\Columns\TextColumn::make('difficulty')
+                    ->label('Difficulty')
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

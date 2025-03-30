@@ -89,9 +89,9 @@
                             <span class="font-semibold text-sm leading-[21px]">Ready to Work</span>
                         </p>
                         <p class="flex items-center gap-[6px]">
-                            <img src="{{ asset('assets/images/icons/briefcase-green.svg') }}"" class="w-6 flex shrink-0" alt="icon">
-                            <span class="font-semibold text-sm leading-[21px]">Beginner Level</span>
-                        </p>
+    <img src="{{ asset('assets/images/icons/briefcase-green.svg') }}" class="flex shrink-0 w-5" alt="icon">
+    <span class="font-semibold text-sm leading-[21px]">{{ ucfirst($course->difficulty) }} Level</span>
+</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
