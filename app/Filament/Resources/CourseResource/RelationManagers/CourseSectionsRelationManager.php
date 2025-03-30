@@ -9,6 +9,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 
 class CourseSectionsRelationManager extends RelationManager
 {
@@ -26,6 +29,37 @@ class CourseSectionsRelationManager extends RelationManager
                     ->required()
                     ->numeric()
                     ->prefix('Position'),
+
+                Repeater::make('quizzes')
+                    ->relationship('quizzes')
+                    ->schema([
+                        TextInput::make('title')->required(),
+                        Select::make('type')
+                            ->options([
+                                'pre' => 'Pre-Section Quiz',
+                                'post' => 'Post-Section Quiz',
+                            ])
+                            ->required(),
+                        Repeater::make('questions')
+                    ->relationship('questions')
+                    ->schema([
+                        TextInput::make('question')->required(),
+                        TextInput::make('options')
+                            ->required()
+                            ->placeholder('Option1,Option2,Option3')
+                            ->afterStateHydrated(function ($state, $set) {
+                                // Pastikan data adalah array sebelum diolah
+                                if (is_array($state)) {
+                                    $set('options', implode(',', $state));
+                                }
+                            })
+                            ->dehydrateStateUsing(function ($state) {
+                                // Ubah string ke array sebelum disimpan
+                                return explode(',', $state);
+                            }),
+                        TextInput::make('correct_answer')->required(),
+                    ]),
+                    ]),
             ]);
     }
 
