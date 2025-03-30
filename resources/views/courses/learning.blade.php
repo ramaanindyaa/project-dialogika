@@ -30,29 +30,29 @@
                 <!-- Section Contents -->
                 @foreach($course->courseSections as $section)
                 <div class="lesson accordion flex flex-col gap-4">
-                    <button type="button" data-expand="{{ $section->id }}" class="flex items-center justify-between">
+                    <button type="button" data-expand="{{ $section->id }}" class="flex items-center justify-between accordion-button">
                         <h2 class="font-semibold">{{ $section->name }}</h2>
                         <img src="{{ asset('assets/images/icons/arrow-circle-down.svg') }}" alt="icon" class="size-6 shrink-0 transition-all duration-300" />
                     </button>
-                    <div id="{{ $section->id }}" class="">
+                    <div id="section-{{ $section->id }}" class="accordion-content {{ $currentSection && $currentSection->id == $section->id ? 'open' : '' }}">
                         <ul class="flex flex-col gap-4">
-                               <!-- Pre-Quiz -->
-                @if ($currentSection->quizzes->where('type', 'pre')->first())
-                <div class="lesson accordion flex flex-col gap-4">
-                    <a href="{{ route('quizzes.show', $currentSection->quizzes->where('type', 'pre')->first()) }}">
-                        <div class="px-4 bg-obito-green text-white py-[10px] rounded-full border border-obito-green hover:drop-shadow-effect transition-all duration-300">
-                            <h3 class="font-semibold text-sm leading-[21px]">Start Pre-Quiz</h3>
-                        </div>
-                    </a>
-                </div>
-                @endif
+                            <!-- Pre-Quiz -->
+                            @if ($currentSection->quizzes->where('type', 'pre')->first())
+                            <div class="lesson accordion flex flex-col gap-4">
+                                <a href="{{ route('quizzes.show', $currentSection->quizzes->where('type', 'pre')->first()) }}">
+                                    <div class="px-4 bg-obito-green text-white py-[10px] rounded-full border border-obito-green hover:drop-shadow-effect transition-all duration-300">
+                                        <h3 class="font-semibold text-sm leading-[21px]">Start Pre-Quiz</h3>
+                                    </div>
+                                </a>
+                            </div>
+                            @endif
                             @foreach($section->sectionContents as $content)
                             <li class="group {{ $currentSection && $section->id == $currentSection->id && $currentContent->id == $content->id ? 'active' : '' }}">
-                                    <a href="{{ route('dashboard.course.learning', [
-                                        'course' => $course->slug,
-                                        'courseSection' => $section->id,
-                                        'sectionContent' => $content->id,
-                                    ]) }}">
+                                <a href="{{ route('dashboard.course.learning', [
+                                    'course' => $course->slug,
+                                    'courseSection' => $section->id,
+                                    'sectionContent' => $content->id,
+                                ]) }}">
                                     <div class="px-4 group-[&.active]:bg-obito-black group-[&.active]:border-transparent group-[&.active]:text-white py-[10px] rounded-full border border-obito-grey group-hover:bg-obito-black transition-all duration-300">
                                         <h3 class="font-semibold text-sm leading-[21px] group-hover:text-white transition-all duration-300">{{ $content->name }}</h3>
                                     </div>
@@ -60,15 +60,15 @@
                             </li>
                             @endforeach
                             <!-- Post-Quiz -->
-                @if ($currentSection->quizzes->where('type', 'post')->first())
-                <div class="lesson accordion flex flex-col gap-4">
-                    <a href="{{ route('quizzes.show', $currentSection->quizzes->where('type', 'post')->first()) }}">
-                        <div class="px-4 bg-obito-green text-white py-[10px] rounded-full border border-obito-green hover:drop-shadow-effect transition-all duration-300">
-                            <h3 class="font-semibold text-sm leading-[21px]">Start Post-Quiz</h3>
-                        </div>
-                    </a>
-                </div>
-                @endif
+                            @if ($currentSection->quizzes->where('type', 'post')->first())
+                            <div class="lesson accordion flex flex-col gap-4">
+                                <a href="{{ route('quizzes.show', $currentSection->quizzes->where('type', 'post')->first()) }}">
+                                    <div class="px-4 bg-obito-green text-white py-[10px] rounded-full border border-obito-green hover:drop-shadow-effect transition-all duration-300">
+                                        <h3 class="font-semibold text-sm leading-[21px]">Start Post-Quiz</h3>
+                                    </div>
+                                </a>
+                            </div>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -147,4 +147,32 @@
             hljs.highlightAll(); // Apply Highlight.js
         });
     </script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const accordionButtons = document.querySelectorAll('.accordion-button');
+
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const content = document.querySelector(`#section-${button.dataset.expand}`);
+                
+                // Tutup semua accordion kecuali yang diklik
+                document.querySelectorAll('.accordion-content.open').forEach(openContent => {
+                    if (openContent !== content) {
+                        openContent.style.maxHeight = null;
+                        openContent.classList.remove('open');
+                    }
+                });
+
+                // Toggle accordion yang diklik
+                if (content.classList.contains('open')) {
+                    content.style.maxHeight = null;
+                    content.classList.remove('open');
+                } else {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    content.classList.add('open');
+                }
+            });
+        });
+    });
+</script>
 @endpush

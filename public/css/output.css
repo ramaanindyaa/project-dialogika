@@ -1824,3 +1824,13 @@ article ol {
 .\[\&\:\:-webkit-scrollbar\]\:hidden::-webkit-scrollbar {
     display: none;
 }
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.accordion-content.open {
+    max-height: 500px; /* Sesuaikan dengan tinggi maksimum konten */
+}
