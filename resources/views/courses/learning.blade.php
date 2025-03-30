@@ -7,7 +7,7 @@
             <ul>
                 <li>
                     <a href="{{ route('dashboard') }}">
-                        <div class="flex items-center gap-2 py-[10px] px-[14px] rounded-full border border-obito-grey bg-white hover:border-obito-green transition-all duration-300">
+                        <div class="flex items-center gap-2 py-[10px] px-[14px] rounded-full border border-obito-grey bg-white hover:border-obito-green transition-all duration-500">
                             <img src="{{ asset('assets/images/icons/home-trend-up.svg') }}" alt="icon" class="size-[20px] shrink-0" />
                             <p>Back to Dashboard</p>
                         </div>
@@ -32,7 +32,7 @@
                 <div class="lesson accordion flex flex-col gap-4">
                     <button type="button" data-expand="{{ $section->id }}" class="flex items-center justify-between accordion-button">
                         <h2 class="font-semibold">{{ $section->name }}</h2>
-                        <img src="{{ asset('assets/images/icons/arrow-circle-down.svg') }}" alt="icon" class="size-6 shrink-0 transition-all duration-300" />
+                        <img src="{{ asset('assets/images/icons/arrow-circle-down.svg') }}" alt="icon" class="size-6 shrink-0 transition-all duration-500" />
                     </button>
                     <div id="section-{{ $section->id }}" class="accordion-content {{ $currentSection && $currentSection->id == $section->id ? 'open' : '' }}">
                         <ul class="flex flex-col gap-4">
@@ -40,7 +40,7 @@
                             @if ($currentSection->quizzes->where('type', 'pre')->first())
                             <div class="lesson accordion flex flex-col gap-4">
                                 <a href="{{ route('quizzes.show', $currentSection->quizzes->where('type', 'pre')->first()) }}">
-                                    <div class="px-4 bg-obito-green text-white py-[10px] rounded-full border border-obito-green hover:drop-shadow-effect transition-all duration-300">
+                                    <div class="px-4 bg-obito-green text-white py-[10px] rounded-full border border-obito-green hover:drop-shadow-effect transition-all duration-500">
                                         <h3 class="font-semibold text-sm leading-[21px]">Start Pre-Quiz</h3>
                                     </div>
                                 </a>
@@ -53,8 +53,8 @@
                                     'courseSection' => $section->id,
                                     'sectionContent' => $content->id,
                                 ]) }}">
-                                    <div class="px-4 group-[&.active]:bg-obito-black group-[&.active]:border-transparent group-[&.active]:text-white py-[10px] rounded-full border border-obito-grey group-hover:bg-obito-black transition-all duration-300">
-                                        <h3 class="font-semibold text-sm leading-[21px] group-hover:text-white transition-all duration-300">{{ $content->name }}</h3>
+                                    <div class="px-4 group-[&.active]:bg-obito-black group-[&.active]:border-transparent group-[&.active]:text-white py-[10px] rounded-full border border-obito-grey group-hover:bg-obito-black transition-all duration-500">
+                                        <h3 class="font-semibold text-sm leading-[21px] group-hover:text-white transition-all duration-500">{{ $content->name }}</h3>
                                     </div>
                                 </a>
                             </li>
@@ -63,7 +63,7 @@
                             @if ($currentSection->quizzes->where('type', 'post')->first())
                             <div class="lesson accordion flex flex-col gap-4">
                                 <a href="{{ route('quizzes.show', $currentSection->quizzes->where('type', 'post')->first()) }}">
-                                    <div class="px-4 bg-obito-green text-white py-[10px] rounded-full border border-obito-green hover:drop-shadow-effect transition-all duration-300">
+                                    <div class="px-4 bg-obito-green text-white py-[10px] rounded-full border border-obito-green hover:drop-shadow-effect transition-all duration-500">
                                         <h3 class="font-semibold text-sm leading-[21px]">Start Post-Quiz</h3>
                                     </div>
                                 </a>
@@ -85,7 +85,7 @@
                 <div class="content border border-obito-grey rounded-[20px] bg-white p-[12px] flex items-center justify-between">
                     <p class="text-obito-text-secondary">Pelajari materi dengan baik, jika bingung maka tanya mentor kelas</p>
                     <div class="buttons flex items-center gap-[12px]">
-                        <a href="#" class="rounded-full border border-obito-grey px-5 py-[10px] hover:border-obito-green transition-all duration-300">
+                        <a href="#" class="rounded-full border border-obito-grey px-5 py-[10px] hover:border-obito-green transition-all duration-500">
                             <span class="font-semibold">Ask Mentor</span>
                         </a>
 
@@ -94,11 +94,11 @@
                                     'course' => $course->slug,
                                     'courseSection' => $nextContent->course_section_id,
                                     'sectionContent' => $nextContent->id,
-                                ]) }}" class="rounded-full border bg-obito-green text-white px-5 py-[10px] hover:drop-shadow-effect transition-all duration-300">
+                                ]) }}" id="next-lesson-btn" class="rounded-full border bg-obito-green text-white px-5 py-[10px] hover:drop-shadow-effect transition-all duration-500" data-target-section="{{ $nextContent->course_section_id }}">
                             <span class="font-semibold">Next Lesson</span>
                         </a>
                         @else
-                        <a href="{{ route('dashboard.course.learning.finished', $course->slug) }}" class="rounded-full border bg-obito-green text-white px-5 py-[10px] hover:drop-shadow-effect transition-all duration-300">
+                        <a href="{{ route('dashboard.course.learning.finished', $course->slug) }}" class="rounded-full border bg-obito-green text-white px-5 py-[10px] hover:drop-shadow-effect transition-all duration-500">
                             <span class="font-semibold">Finish Learning</span>
                         </a>
                         @endif
@@ -150,6 +150,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const accordionButtons = document.querySelectorAll('.accordion-button');
+        const nextLessonButton = document.getElementById('next-lesson-btn');
 
         accordionButtons.forEach(button => {
             button.addEventListener('click', () => {
@@ -172,6 +173,42 @@
                     content.classList.add('open');
                 }
             });
+        });
+
+        nextLessonButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            const targetSectionId = nextLessonButton.dataset.targetSection;
+            const currentSectionId = document.querySelector('.accordion-content.open')?.id?.split('-')[1];
+            
+            // Jika pindah ke section yang berbeda, lakukan transisi
+            if (currentSectionId !== targetSectionId) {
+                const content = document.querySelector(`#section-${targetSectionId}`);
+                
+                // Tutup semua accordion kecuali target
+                document.querySelectorAll('.accordion-content.open').forEach(openContent => {
+                    if (openContent !== content) {
+                        openContent.style.maxHeight = null;
+                        openContent.classList.remove('open');
+                    }
+                });
+
+                // Toggle target accordion
+                if (content.classList.contains('open')) {
+                    content.style.maxHeight = null;
+                    content.classList.remove('open');
+                } else {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    content.classList.add('open');
+                }
+
+                // Redirect to the next lesson after animation
+                setTimeout(() => {
+                    window.location.href = nextLessonButton.href;
+                }, 500); // Delay sesuai durasi animasi
+            } else {
+                // Jika masih di section yang sama, langsung redirect tanpa transisi
+                window.location.href = nextLessonButton.href;
+            }
         });
     });
 </script>
