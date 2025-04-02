@@ -8,6 +8,15 @@
         <div class="flex w-[1000px] !h-fit rounded-[20px] border border-obito-grey gap-[40px] bg-white items-center p-5">
             <div id="quiz-container" class="w-full flex flex-col gap-5">
                 <h1 class="font-bold text-[22px] leading-[33px] text-center">{{ $quiz->title }}</h1>
+
+                @if ($userQuiz && $userQuiz->is_completed)
+                    <div class="p-4 bg-obito-light-green border border-obito-green rounded-[10px] text-center">
+                        <p class="font-bold text-obito-green text-[18px] leading-[27px]">
+                            Quiz sudah dikerjakan. Skor Anda: {{ $score ?? 'N/A' }}/{{ $totalScore ?? 'N/A' }}
+                        </p>
+                    </div>
+                @endif
+
                 <form action="{{ route('quizzes.submit', $quiz) }}" method="POST" class="flex flex-col gap-6">
                     @csrf
                     @foreach ($quiz->questions as $index => $question)
@@ -18,24 +27,22 @@
                             <div class="flex flex-col gap-2">
                                 @foreach ($question->options as $option)
                                     <label class="flex items-center gap-3 p-3 border border-obito-grey rounded-[10px] hover:border-obito-green transition-all duration-300">
-                                        <input type="radio" name="answers[{{ $question->id }}]" value="{{ $option }}" class="accent-obito-green">
+                                        <input type="radio" name="answers[{{ $question->id }}]" value="{{ $option }}" class="accent-obito-green"
+                                            @if ($userQuiz && $userQuiz->answers && isset($userQuiz->answers[$question->id]) && $userQuiz->answers[$question->id] === $option) checked @endif
+                                            @if ($userQuiz && $userQuiz->is_completed) disabled @endif>
                                         <span class="text-obito-text-secondary">{{ $option }}</span>
                                     </label>
                                 @endforeach
                             </div>
                         </div>
                     @endforeach
-                    <button type="submit" class="w-full py-3 mt-6 bg-obito-green text-white font-semibold rounded-[10px] hover:drop-shadow-effect transition-all duration-300">
-                        Submit
-                    </button>
+
+                    @if (!$userQuiz || !$userQuiz->is_completed)
+                        <button type="submit" class="w-full py-3 mt-6 bg-obito-green text-white font-semibold rounded-[10px] hover:drop-shadow-effect transition-all duration-300">
+                            Submit
+                        </button>
+                    @endif
                 </form>
-                @if (session('score'))
-                    <div class="mt-6 p-4 bg-obito-light-green border border-obito-green rounded-[10px] text-center">
-                        <p class="font-bold text-obito-green text-[18px] leading-[27px]">
-                            Your score: {{ session('score') }}/{{ session('totalScore') }}
-                        </p>
-                    </div>
-                @endif
             </div>
         </div>
     </main>

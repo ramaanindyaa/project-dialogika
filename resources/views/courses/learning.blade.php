@@ -39,9 +39,18 @@
                             <!-- Pre-Quiz -->
                             @if ($currentSection->quizzes->where('type', 'pre')->first())
                             <div class="lesson accordion flex flex-col gap-4">
-                                <a href="{{ route('quizzes.show', $currentSection->quizzes->where('type', 'pre')->first()) }}">
+                                @php
+                                    $preQuiz = $currentSection->quizzes->where('type', 'pre')->first();
+                                    $isPreQuizCompleted = auth()->user()->userQuizzes->where('quiz_id', $preQuiz->id)->first()?->is_completed;
+                                @endphp
+                                <a href="{{ route('quizzes.show', $preQuiz) }}">
                                     <div class="px-4 bg-obito-green text-white py-[10px] rounded-full border border-obito-green hover:drop-shadow-effect transition-all duration-500">
-                                        <h3 class="font-semibold text-sm leading-[21px]">Start Pre-Quiz</h3>
+                                        <h3 class="font-semibold text-sm leading-[21px]">
+                                            Start Pre-Quiz
+                                            @if ($isPreQuizCompleted)
+                                                <span class="ml-2 text-white">✔</span>
+                                            @endif
+                                        </h3>
                                     </div>
                                 </a>
                             </div>
@@ -62,9 +71,18 @@
                             <!-- Post-Quiz -->
                             @if ($currentSection->quizzes->where('type', 'post')->first())
                             <div class="lesson accordion flex flex-col gap-4">
-                                <a href="{{ route('quizzes.show', $currentSection->quizzes->where('type', 'post')->first()) }}">
+                                @php
+                                    $postQuiz = $currentSection->quizzes->where('type', 'post')->first();
+                                    $isPostQuizCompleted = auth()->user()->userQuizzes->where('quiz_id', $postQuiz->id)->first()?->is_completed;
+                                @endphp
+                                <a href="{{ route('quizzes.show', $postQuiz) }}">
                                     <div class="px-4 bg-obito-green text-white py-[10px] rounded-full border border-obito-green hover:drop-shadow-effect transition-all duration-500">
-                                        <h3 class="font-semibold text-sm leading-[21px]">Start Post-Quiz</h3>
+                                        <h3 class="font-semibold text-sm leading-[21px]">
+                                            Start Post-Quiz
+                                            @if ($isPostQuizCompleted)
+                                                <span class="ml-2 text-white">✔</span>
+                                            @endif
+                                        </h3>
                                     </div>
                                 </a>
                             </div>

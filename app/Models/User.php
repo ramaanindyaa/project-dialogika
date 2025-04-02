@@ -77,4 +77,9 @@ class User extends Authenticatable implements FilamentUser
             ->where('ended_at', '>=', now()) // Ensure the subscription is still active
             ->exists(); // return boolean
     }
+
+    public function userQuizzes()
+    {
+        return $this->hasMany(UserQuiz::class);
+    }
 }

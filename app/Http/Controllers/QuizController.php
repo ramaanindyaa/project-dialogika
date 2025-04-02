@@ -3,30 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use App\Models\UserQuiz;
 use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
     public function show(Quiz $quiz)
     {
-        return view('quizzes.show', compact('quiz'));
+        $userQuiz = UserQuiz::where('user_id', auth()->id())
+            ->where('quiz_id', $quiz->id)
+            ->first();
+
+        $score = null;
+        $totalScore = null;
+
+        if ($userQuiz && $userQuiz->is_completed) {
+            $score = session('score') ?? $userQuiz->score; // Ambil skor dari session atau database
+            $totalScore = session('totalScore') ?? $quiz->questions->count() * 20; // Hitung total skor
+        }
+
+        return view('quizzes.show', compact('quiz', 'userQuiz', 'score', 'totalScore'));
     }
 
     public function submit(Request $request, Quiz $quiz)
     {
         $score = 0;
         $totalQuestions = $quiz->questions->count();
-        $pointsPerQuestion = 20; // Nilai default per pertanyaan
+        $pointsPerQuestion = 20;
+
+        $submittedAnswers = $request->input('answers', []);
 
         foreach ($quiz->questions as $question) {
-            if ($request->input("answers.{$question->id}") === $question->correct_answer) {
+            if (isset($submittedAnswers[$question->id]) && $submittedAnswers[$question->id] === $question->correct_answer) {
                 $score += $pointsPerQuestion;
             }
         }
 
-        return redirect()->back()->with([
+        // Simpan jawaban pengguna dan skor ke database
+        UserQuiz::updateOrCreate(
+            ['user_id' => auth()->id(), 'quiz_id' => $quiz->id],
+            [
+                'is_completed' => true,
+                'answers' => $submittedAnswers,
+                'score' => $score, // Simpan skor
+            ]
+        );
+
+        return redirect()->route('quizzes.show', $quiz)->with([
             'score' => $score,
-            'totalScore' => $totalQuestions * $pointsPerQuestion, // Total skor maksimal
+            'totalScore' => $totalQuestions * $pointsPerQuestion,
         ]);
     }
 
