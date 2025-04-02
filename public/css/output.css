@@ -1834,3 +1834,14 @@ article ol {
 .accordion-content.open {
     max-height: 500px; /* Sesuaikan dengan tinggi maksimum konten */
 }
+
+.custom-box {
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+}
+
+.custom-button {
+    border-radius: 10px;
+    margin-top: 1.5rem;
+}

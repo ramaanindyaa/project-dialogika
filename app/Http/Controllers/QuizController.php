@@ -18,11 +18,36 @@ class QuizController extends Controller
         $totalScore = null;
 
         if ($userQuiz && $userQuiz->is_completed) {
-            $score = session('score') ?? $userQuiz->score; // Ambil skor dari session atau database
-            $totalScore = session('totalScore') ?? $quiz->questions->count() * 20; // Hitung total skor
+            $score = session('score') ?? $userQuiz->score;
+            $totalScore = session('totalScore') ?? $quiz->questions->count() * 20;
         }
 
-        return view('quizzes.show', compact('quiz', 'userQuiz', 'score', 'totalScore'));
+        // Cari section dan content selanjutnya
+        $currentSection = $quiz->courseSection;
+        $currentContent = $currentSection->sectionContents->first(); // Ambil content pertama dari section ini
+        $nextContent = null;
+
+        // Cari content selanjutnya di section yang sama
+        if ($currentContent) {
+            $nextContent = $currentSection->sectionContents
+                ->where('id', '>', $currentContent->id)
+                ->sortBy('id')
+                ->first();
+        }
+
+        // Jika tidak ada content selanjutnya, cari di section berikutnya
+        if (!$nextContent) {
+            $nextSection = $quiz->courseSection->course->courseSections
+                ->where('id', '>', $currentSection->id)
+                ->sortBy('id')
+                ->first();
+
+            if ($nextSection) {
+                $nextContent = $nextSection->sectionContents->sortBy('id')->first();
+            }
+        }
+
+        return view('quizzes.show', compact('quiz', 'userQuiz', 'score', 'totalScore', 'nextContent'));
     }
 
     public function submit(Request $request, Quiz $quiz)

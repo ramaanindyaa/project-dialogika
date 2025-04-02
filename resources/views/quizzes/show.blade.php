@@ -10,17 +10,31 @@
                 <h1 class="font-bold text-[22px] leading-[33px] text-center">{{ $quiz->title }}</h1>
 
                 @if ($userQuiz && $userQuiz->is_completed)
-                    <div class="p-4 bg-obito-light-green border border-obito-green rounded-[10px] text-center">
+                    <div class="p-4 bg-obito-light-green border border-obito-green rounded-[14px] text-center mb-6">
                         <p class="font-bold text-obito-green text-[18px] leading-[27px]">
                             Quiz sudah dikerjakan. Skor Anda: {{ $score ?? 'N/A' }}/{{ $totalScore ?? 'N/A' }}
                         </p>
                     </div>
+
+                    @if ($nextContent)
+                        <a href="{{ route('dashboard.course.learning', [
+                            'course' => $quiz->courseSection->course->slug,
+                            'courseSection' => $nextContent->course_section_id,
+                            'sectionContent' => $nextContent->id,
+                        ]) }}" class="w-full py-3 mt-6 bg-obito-green text-white font-semibold rounded-[14px] hover:drop-shadow-effect transition-all duration-300 text-center block border border-obito-green mb-5">
+                            Lanjutkan Pembelajaran Selanjutnya
+                        </a>
+                    @else
+                        <p class="mt-4 text-center text-obito-text-secondary">
+                            Tidak ada pembelajaran selanjutnya.
+                        </p>
+                    @endif
                 @endif
 
-                <form action="{{ route('quizzes.submit', $quiz) }}" method="POST" class="flex flex-col gap-6">
+                <form action="{{ route('quizzes.submit', $quiz) }}" method="POST" class="flex flex-col gap-6 mt-6">
                     @csrf
                     @foreach ($quiz->questions as $index => $question)
-                        <div class="flex flex-col gap-4">
+                        <div class="flex flex-col gap-6 mt-[30px]"> <!-- Tambahkan gap-6 untuk jarak antar pertanyaan -->
                             <p class="font-semibold text-[18px] leading-[27px]">
                                 {{ $index + 1 }}. {{ $question->question }}
                             </p>
@@ -38,7 +52,7 @@
                     @endforeach
 
                     @if (!$userQuiz || !$userQuiz->is_completed)
-                        <button type="submit" class="w-full py-3 mt-6 bg-obito-green text-white font-semibold rounded-[10px] hover:drop-shadow-effect transition-all duration-300">
+                        <button type="submit" class="w-full py-3 mt-[30px] bg-obito-green text-white font-semibold rounded-[14px] hover:drop-shadow-effect transition-all duration-300 border border-obito-green">
                             Submit
                         </button>
                     @endif
