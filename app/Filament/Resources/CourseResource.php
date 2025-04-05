@@ -40,6 +40,12 @@ class CourseResource extends Resource
                     ->required()
                     ->image(),
 
+                    Forms\Components\TextInput::make('preview_video_url') // Tambahkan ini
+                    ->label('Preview Video URL')
+                    ->url()
+                    ->placeholder('https://www.youtube.com/watch?v=example')
+                    ->nullable(),
+
                 ]),
 
                 Fieldset::make('Additional')

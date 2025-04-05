@@ -46,16 +46,31 @@
             class="flex items-center w-full max-w-[1000px] rounded-[20px] border border-obito-grey p-5 gap-[30px] bg-white mx-auto">
             <div id="thumbnail-container"
                 class="flex relative w-[500px] h-[350px] shrink-0 rounded-[14px] overflow-hidden bg-obito-grey">
-                <img src="{{ Storage::url($course->thumbnail) }}"" class="w-full h-full object-cover" alt="thumbnail">
+                @if ($course->preview_video_url)
+                    @php
+                        $embedUrl = $course->preview_video_url;
+                        if (str_contains($embedUrl, 'youtu.be')) {
+                            $embedUrl = str_replace('youtu.be/', 'www.youtube.com/embed/', $embedUrl);
+                        } elseif (str_contains($embedUrl, 'watch?v=')) {
+                            $embedUrl = str_replace('watch?v=', 'embed/', $embedUrl);
+                        }
+                        $embedUrl = preg_replace('/\?.*/', '', $embedUrl); 
+                    @endphp
+                    <iframe 
+                        src="{{ $embedUrl }}" 
+                        class="w-full h-full object-cover" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                @else
+                    <img src="{{ Storage::url($course->thumbnail) }}" class="w-full h-full object-cover" alt="thumbnail">
+                @endif
                 <p
                     class="absolute bottom-[10px] left-[10px] z-10 w-fit h-fit flex flex-col items-center rounded-[14px] py-[6px] px-[10px] bg-white gap-0.5">
-                    <img src="{{ asset('assets/images/icons/like.svg') }}"" class="w-5 h-5" alt="icon">
+                    <img src="{{ asset('assets/images/icons/like.svg') }}" class="w-5 h-5" alt="icon">
                     <span class="font-semibold text-xs">4.8</span>
                 </p>
-                <button type="button" class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 z-10">
-                    <img src="{{ asset('assets/images/icons/video-circle-green-fill.svg') }}"" class="flex w-[60px] h-[60px] shrink-0"
-                        alt="icon">
-                </button>
             </div>
             <div id="course-info" class="flex flex-col justify-center gap-[30px]">
                 <div class="flex flex-col gap-[10px]">
