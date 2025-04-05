@@ -129,7 +129,18 @@
             <article>
                 <div class="content-ebook">
                     <h1 class="mb-5">{{ $currentContent->name }}</h1>
-                    {!! $currentContent->content !!}
+                    @if ($currentContent->type === 'text')
+                        {!! $currentContent->content !!}
+                    @elseif ($currentContent->type === 'video')
+                        <div class="responsive-video">
+                            <iframe 
+                                src="{{ $currentContent->video_url }}" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    @endif
                 </div>
             </article>
         </main>

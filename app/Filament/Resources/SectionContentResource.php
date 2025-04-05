@@ -49,9 +49,29 @@ class SectionContentResource extends Resource
                     ->required()
                     ->maxLength(255),
 
+                Select::make('type') // Tambahkan ini
+                    ->label('Content Type')
+                    ->options([
+                        'text' => 'Text',
+                        'video' => 'Video',
+                    ])
+                    ->default('text')
+                    ->required()
+                    ->live(), // Tambahkan ini
+
                 Forms\Components\RichEditor::make('content')
                     ->columnSpanFull()
-                    ->required(),
+                    ->default('') // Tambahkan nilai default kosong
+                    ->required()
+                    ->visible(fn ($get) => $get('type') === 'text'), // Tampilkan hanya jika tipe adalah text
+
+                Forms\Components\TextInput::make('video_url') // Tambahkan ini
+                    ->label('Video URL')
+                    ->url()
+                    ->placeholder('https://www.youtube.com/watch?v=example atau https://youtu.be/example')
+                    ->required(fn ($get) => $get('type') === 'video') // Wajib diisi jika tipe adalah video
+                    ->rule('regex:/^(https:\/\/www\.youtube\.com\/watch\?v=|https:\/\/youtu\.be\/)/') // Validasi URL YouTube
+                    ->visible(fn ($get) => $get('type') === 'video'),
             ]);
     }
 
@@ -71,6 +91,15 @@ class SectionContentResource extends Resource
                 Tables\Columns\TextColumn::make('courseSection.course.name')
                     ->sortable()
                     ->searchable(),
+
+                Tables\Columns\TextColumn::make('type') // Tambahkan ini
+                    ->label('Content Type')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('video_url') // Tambahkan ini
+                    ->label('Video URL')
+                    ->url(fn ($record) => $record->video_url ?: '#') // Fallback ke '#' jika kosong
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
