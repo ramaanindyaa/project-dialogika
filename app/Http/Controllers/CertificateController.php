@@ -31,8 +31,6 @@ class CertificateController extends Controller
 
         // Generate PDF
         $pdf = Pdf::loadView('certificates.template', $data);
-
-        // Unduh sertifikat
         return $pdf->download("Certificate - {$course->name}.pdf");
     }
 }

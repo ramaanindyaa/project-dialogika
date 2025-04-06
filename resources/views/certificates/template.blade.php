@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate</title>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet"> <!-- Tambahkan ini -->
     <style>
+        @font-face {
+            font-family: 'AlexBrush';
+            src: url('{{ storage_path('fonts/AlexBrush-Regular.ttf') }}') format('truetype');
+        }
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #ffffff;
@@ -57,7 +61,7 @@
             margin-top: 30px;
             font-size: 20pt; /* Ukuran font lebih besar untuk tanda tangan */
             color: #6a6f7c;
-            font-family: 'Alex Brush', cursive; /* Terapkan font Alex Brush */
+            font-family: 'AlexBrush', cursive; /* Terapkan font Alex Brush */
             text-align: center;
         }
         .signature-line {

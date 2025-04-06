@@ -45,7 +45,7 @@ return [
          * Times-Roman, Times-Bold, Times-BoldItalic, Times-Italic,
          * Symbol, ZapfDingbats.
          */
-        'font_dir' => storage_path('fonts'), // advised by dompdf (https://github.com/dompdf/dompdf/pull/782)
+        'font_dir' => storage_path('fonts/'), // Lokasi penyimpanan font
 
         /**
          * The location of the DOMPDF font cache directory
@@ -55,7 +55,7 @@ return [
          *
          * Note: This directory must exist and be writable by the webserver process.
          */
-        'font_cache' => storage_path('fonts'),
+        'font_cache' => storage_path('fonts/'), // Cache font
 
         /**
          * The location of a temporary directory.
@@ -296,6 +296,17 @@ return [
          * @var bool
          */
         'enable_html5_parser' => true,
+
+        /**
+         * Custom font data
+         *
+         * @var array
+         */
+        'font_data' => [
+            'alexbrush' => [
+                'R' => 'AlexBrush-Regular.ttf', // Regular font
+            ],
+        ],
     ],
 
 ];
