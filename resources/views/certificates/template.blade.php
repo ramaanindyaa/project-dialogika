@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate</title>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet"> <!-- Tambahkan ini -->
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'AlexBrush';
@@ -12,56 +12,72 @@
         }
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #ffffff;
+            background-color: #f8f9fa;
             color: #0a0723;
-            padding: 50px;
+            padding: 20px; /* Tambahkan padding untuk memberikan ruang */
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: auto; /* Ubah dari 100vh ke auto */
         }
         .certificate-container {
+            position: relative;
             background-color: #ffffff;
-            border: 5px solid #2f6a62;
-            border-radius: 10px;
-            padding: 40px;
-            width: 600px;
+            border: 10px solid #2f6a62;
+            border-radius: 20px;
+            padding: 20px;
+            width: 650px;
+            height: 880px;
             text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin: 5px 20px 0px -20px; /* Pastikan margin otomatis */
         }
         .certificate-header {
             font-size: 24pt;
             font-weight: bold;
             color: #2f6a62;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-transform: uppercase;
         }
         .certificate-subtitle {
-            font-size: 12pt;
+            font-size: 14pt;
             color: #6a6f7c;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .certificate-name {
-            font-size: 18pt;
+            font-size: 22pt;
             font-weight: bold;
             color: #0a0723;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         .certificate-course {
-            font-size: 14pt;
-            font-weight: bold;
+            font-size: 16pt;
             color: #2f6a62;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .certificate-date {
             font-size: 12pt;
             color: #6a6f7c;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+        }
+        .decorative-line {
+            width: 60%;
+            height: 2px;
+            background-color: #2f6a62;
+            margin: 20px auto;
+        }
+        .certificate-description {
+            font-size: 12pt;
+            color: #6a6f7c;
+            margin-bottom: 30px;
+            line-height: 1.5;
         }
         .signature {
-            margin-top: 30px;
-            font-size: 20pt; /* Ukuran font lebih besar untuk tanda tangan */
+            margin-top: 20px;
+            font-size: 18pt;
             color: #6a6f7c;
-            font-family: 'AlexBrush', cursive; /* Terapkan font Alex Brush */
+            font-family: 'AlexBrush', cursive;
             text-align: center;
         }
         .signature-line {
@@ -75,21 +91,50 @@
             width: 80px;
             margin-bottom: 20px;
         }
+        .footer-note {
+            font-size: 10pt;
+            color: #6a6f7c;
+            margin-top: 20px;
+        }
+        .background-shape {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: #2f6a62;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+        .background-shape.top-left {
+            top: -50px;
+            left: -50px;
+        }
+        .background-shape.bottom-right {
+            bottom: -50px;
+            right: -50px;
+        }
     </style>
 </head>
 <body>
     <div class="certificate-container">
+        <div class="background-shape top-left"></div>
+        <div class="background-shape bottom-right"></div>
         <img src="{{ public_path('assets/images/logos/logo-64-big.png') }}" alt="Logo" class="logo">
         <h1 class="certificate-header">Certificate of Completion</h1>
-        <p class="certificate-subtitle">This is to certify that</p>
+        <p class="certificate-subtitle">This certificate is awarded to</p>
         <h2 class="certificate-name">{{ $userName }}</h2>
-        <p class="certificate-subtitle">has successfully completed the course</p>
+        <p class="certificate-course">For successfully completing the course:</p>
         <h3 class="certificate-course">{{ $courseName }}</h3>
-        <p class="certificate-date">on {{ $completionDate }}</p>
+        <p class="certificate-date">Completed on: {{ $completionDate }}</p>
+        <div class="decorative-line"></div>
+        <p class="certificate-description">
+            In recognition of your dedication and hard work in completing this course. Your efforts have demonstrated a commitment to learning and growth.
+        </p>
         <div class="signature">
             <p>{{ $mentorName }}</p>
             <div class="signature-line"></div>
         </div>
+        <p>Mentor</p>
+        <p class="footer-note">This certificate is generated by Dialogika Public Speaking Online Course</p>
     </div>
 </body>
 </html>
