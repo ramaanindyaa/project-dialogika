@@ -1,5 +1,5 @@
 @extends('front.layouts.app')
-@section('title', 'Dialogika Public Speaking Online Course')
+@section('title', 'Dialogika Online Course')
 @section('content')
     <x-nav-guest />
         <main class="flex flex-1 items-center py-[70px]">
@@ -11,16 +11,16 @@
                             <span class="font-bold text-sm">DIPERCAYA LEBIH DARI 100+ PERUSAHAAN</span>
                         </p>
                         <div>
-                            <h1 class="font-extrabold text-[50px] leading-[65px]">Upgrade Skills, <br>Get Higher Salary</h1>
-                            <p class="leading-7 mt-[10px] text-obito-text-secondary">Materi terbaru disusun oleh professional dan perusahaan besar agar lebih sesuai kebutuhan dan anda lorem dolorsi.</p>
+                            <h1 class="font-extrabold text-[50px] leading-[65px]">Kuasai Skills Baru, <br> Raih Karir Impian</h1>
+                            <p class="leading-7 mt-[10px] text-obito-text-secondary">Belajar langsung dari para profesional dan perusahaan besar yang berkomitmen mengembangkan keterampilan yang relevan dengan tren industri.</p>
                         </div>
                         <div class="flex items-center gap-[18px]">
                             <a href="{{ route('register') }}" class="flex items-center rounded-full h-[67px] py-5 px-[30px] gap-[10px] bg-obito-green hover:drop-shadow-effect transition-all duration-300">
-                                <span class="text-white font-semibold text-lg">Get Started</span>
+                                <span class="text-white font-semibold text-lg">Daftar Sekarang</span>
                             </a>
-                            <a href="#" class="flex items-center rounded-full h-[67px] border border-obito-grey py-5 px-[30px] bg-white gap-[10px] hover:border-obito-green transition-all duration-300">
+                            <a href="{{ route('login') }}" class="flex items-center rounded-full h-[67px] border border-obito-grey py-5 px-[30px] bg-white gap-[10px] hover:border-obito-green transition-all duration-300">
                                 <img src="{{ asset('assets/images/icons/play-circle-fill.svg') }}" class="size-8 flex shrink-0" alt="icon">
-                                <span class="font-semibold text-lg">How It Works</span>
+                                <span class="font-semibold text-lg">Mulai Belajar</span>
                             </a>
                         </div>
                     </div>

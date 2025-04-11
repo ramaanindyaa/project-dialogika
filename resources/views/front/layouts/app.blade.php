@@ -10,7 +10,7 @@
         <meta name="description" content="Obito is an innovative online learning platform that empowers students and professionals with high-quality, accessible courses.">
 
         <!-- Favicon -->
-        <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logos/logo-64.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/images/logos/logo-64.png') }}">
         <link rel="apple-touch-icon" href="assets/images/logos/logo-64.png') }}">
 
         <!-- Open Graph Meta Tags -->
