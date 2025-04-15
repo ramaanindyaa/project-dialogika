@@ -81,6 +81,15 @@
                         <span class="font-semibold text-xs text-white">This Course is Popular This Year</span>
                     </p>
                     @endif
+                    
+                    @if($course->isEnrolledByUser() && $course->progress_percentage == 100)
+                    <p id="completion-badge"
+                        class="flex items-center gap-[6px] rounded-[14px] py-[6px] px-2 w-fit bg-obito-light-green">
+                        <img src="{{ asset('assets/images/icons/check-circle.svg') }}" class="w-5 flex shrink-0" alt="icon">
+                        <span class="font-semibold text-xs text-obito-green">Course Completed</span>
+                    </p>
+                    @endif
+                    
                     <h1 class="font-bold text-[28px] leading-[42px]">
                         {{ $course->name }}
                     </h1>
@@ -110,15 +119,56 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="{{ route('dashboard.course.join', $course->slug) }}"
-                        class="rounded-full py-[10px] px-5 gap-[10px] bg-obito-green hover:drop-shadow-effect transition-all duration-300">
-                        <span class="font-semibold text-white">Start Learning Now</span>
-                    </a>
-                    <a href="#"
-                        class="rounded-full border border-obito-grey py-[10px] px-5 gap-[10px] bg-white hover:border-obito-green transition-all duration-300">
-                        <span class="font-semibold">Add to Bookmark</span>
-                    </a>
+    @auth
+        @if($course->isEnrolledByUser())
+            @if($course->progress_percentage == 100)
+                <div class="rounded-full py-[10px] px-5 gap-[10px] bg-obito-green hover:drop-shadow-effect transition-all duration-300">
+                    <span class="font-semibold text-white">Completed</span>
                 </div>
+                <a href="{{ route('dashboard.course.learning.progress', $course->slug) }}"
+                    class="rounded-full border border-obito-grey py-[10px] px-5 gap-[10px] bg-white hover:border-obito-green transition-all duration-300">
+                    <span class="font-semibold">Access Course</span>
+                </a>
+            @elseif($course->progress_percentage > 0)
+                <a href="{{ route('dashboard.course.learning.progress', $course->slug) }}"
+                    class="rounded-full py-[10px] px-5 gap-[10px] bg-obito-green hover:drop-shadow-effect transition-all duration-300">
+                    <span class="font-semibold text-white">Continue Learning</span>
+                </a>
+                <a href="#"
+                    class="rounded-full border border-obito-grey py-[10px] px-5 gap-[10px] bg-white hover:border-obito-green transition-all duration-300">
+                    <span class="font-semibold">Add to Bookmark</span>
+                </a>
+            @else
+                <a href="{{ route('dashboard.course.join', $course->slug) }}"
+                    class="rounded-full py-[10px] px-5 gap-[10px] bg-obito-green hover:drop-shadow-effect transition-all duration-300">
+                    <span class="font-semibold text-white">Start Learning Now</span>
+                </a>
+                <a href="#"
+                    class="rounded-full border border-obito-grey py-[10px] px-5 gap-[10px] bg-white hover:border-obito-green transition-all duration-300">
+                    <span class="font-semibold">Add to Bookmark</span>
+                </a>
+            @endif
+        @else
+            <a href="{{ route('dashboard.course.join', $course->slug) }}"
+                class="rounded-full py-[10px] px-5 gap-[10px] bg-obito-green hover:drop-shadow-effect transition-all duration-300">
+                <span class="font-semibold text-white">Start Learning Now</span>
+            </a>
+            <a href="#"
+                class="rounded-full border border-obito-grey py-[10px] px-5 gap-[10px] bg-white hover:border-obito-green transition-all duration-300">
+                <span class="font-semibold">Add to Bookmark</span>
+            </a>
+        @endif
+    @else
+        <a href="{{ route('login') }}"
+            class="rounded-full py-[10px] px-5 gap-[10px] bg-obito-green hover:drop-shadow-effect transition-all duration-300">
+            <span class="font-semibold text-white">Login to Enroll</span>
+        </a>
+        <a href="#"
+            class="rounded-full border border-obito-grey py-[10px] px-5 gap-[10px] bg-white hover:border-obito-green transition-all duration-300">
+            <span class="font-semibold">Add to Bookmark</span>
+        </a>
+    @endauth
+</div>
             </div>
         </header>
         <section id="details" class="flex flex-col w-full max-w-[1000px] gap-4 mx-auto">
@@ -422,7 +472,8 @@
                 <div>
                     <h3 class="font-semibold text-xl">Your Progress</h3>
                     <p class="text-obito-text-secondary text-sm mt-2">
-                        {{ $course->completed_contents_count }} of {{ $course->total_contents_count }} lessons completed
+                        {{ $course->learningProgress()->where('user_id', auth()->id())->where('is_completed', true)->count() }} of 
+                        {{ $course->courseSections->flatMap->sectionContents->count() }} lessons completed
                     </p>
                 </div>
                 <span class="text-2xl font-bold">{{ $course->progress_percentage }}%</span>
@@ -435,14 +486,21 @@
             <div class="flex justify-between items-center pt-2">
                 @if($course->progress_percentage == 100)
                     <span class="bg-obito-green text-white text-xs px-5 py-4 rounded-full font-medium">Completed</span>
-                    <a href="{{ route('courses.certificate', $course) }}" class="text-obito-green hover:bg-[rgba(47,106,98,0.1)] px-4 py-2 rounded-full transition-all duration-300 font-medium hover:underline">
+                    <a href="{{ route('courses.certificate', $course) }}" class="bg-obito-light-green text-obito-green py-2 px-5 rounded-full transition-all duration-300 font-medium hover:bg-[rgba(47,106,98,0.2)]">
                         Download Certificate
                     </a>
                 @else
                     <span class="text-sm text-obito-text-secondary">Keep learning to complete this course</span>
-                    <a href="{{ route('dashboard.course.learning.progress', $course->slug) }}" class="text-obito-green hover:bg-[rgba(47,106,98,0.1)] px-4 py-2 rounded-full transition-all duration-300 font-medium hover:underline">
-                        View Details
-                    </a>
+                    
+                    @if($course->progress_percentage > 0)
+                        <a href="{{ route('dashboard.course.learning.progress', $course->slug) }}" class="bg-obito-green text-white py-2 px-5 rounded-full hover:drop-shadow-effect transition-all duration-300">
+                            Continue Learning
+                        </a>
+                    @else
+                        <a href="{{ route('dashboard.course.join', $course->slug) }}" class="bg-obito-green text-white py-2 px-5 rounded-full hover:drop-shadow-effect transition-all duration-300">
+                            Start Learning
+                        </a>
+                    @endif
                 @endif
             </div>
         </div>

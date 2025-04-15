@@ -38,6 +38,22 @@ class CourseController extends Controller
             'courseSections.sectionContents',
             'courseMentors.mentor'
         ]);
+        
+        // Calculate progress if user is logged in and enrolled
+        if (auth()->check() && $course->isEnrolledByUser()) {
+            // This uses the progress_percentage accessor you already have
+            // Make sure to eager load learningProgress for better performance
+            $course->loadCount([
+                'learningProgress as completed_contents_count' => function ($query) {
+                    $query->where('user_id', auth()->id())
+                        ->where('is_completed', true);
+                }
+            ]);
+            
+            // Total content count
+            $course->total_contents_count = $course->courseSections->flatMap->sectionContents->count();
+        }
+        
         return view('courses.details', compact('course'));
     }
 
