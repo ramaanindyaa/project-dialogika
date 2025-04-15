@@ -13,6 +13,14 @@
                         </div>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('dashboard.course.learning.progress', $course->slug) }}">
+                        <div class="flex items-center gap-2 py-[10px] px-[14px] rounded-full border border-obito-grey bg-white hover:border-obito-green transition-all duration-500">
+                            <img src="{{ asset('assets/images/icons/chart-success.svg') }}" alt="icon" class="size-[20px] shrink-0" />
+                            <p>View Learning Progress</p>
+                        </div>
+                    </a>
+                </li>
             </ul>
             <header class="flex flex-col gap-[12px]">
                 <div class="flex justify-center items-center overflow-hidden w-full h-[100px] rounded-[14px]">
@@ -62,8 +70,13 @@
                                     'courseSection' => $section->id,
                                     'sectionContent' => $content->id,
                                 ]) }}">
-                                    <div class="px-4 group-[&.active]:bg-obito-black group-[&.active]:border-transparent group-[&.active]:text-white py-[10px] rounded-full border border-obito-grey group-hover:bg-obito-black transition-all duration-500">
-                                        <h3 class="font-semibold text-sm leading-[21px] group-hover:text-white transition-all duration-500">{{ $content->name }}</h3>
+                                    <div class="px-4 group-[&.active]:bg-obito-black group-[&.active]:border-transparent group-[&.active]:text-white py-[10px] rounded-full border {{ in_array($content->id, $completedContentIds ?? []) ? 'border-obito-green' : 'border-obito-grey' }} group-hover:bg-obito-black transition-all duration-500">
+                                        <h3 class="font-semibold text-sm leading-[21px] group-hover:text-white transition-all duration-500">
+                                            {{ $content->name }}
+                                            @if(in_array($content->id, $completedContentIds ?? []))
+                                                <span class="ml-2 text-obito-green group-[&.active]:text-white">✔</span>
+                                            @endif
+                                        </h3>
                                     </div>
                                 </a>
                             </li>

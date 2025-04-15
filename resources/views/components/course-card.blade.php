@@ -25,9 +25,22 @@
                 <span class="text-sm text-obito-text-secondary">{{ $course->content_count }} Lessons</span>
             </p>
             <p class="flex items-center gap-[6px]">
-    <img src="{{ asset('assets/images/icons/briefcase-green.svg') }}" class="flex shrink-0 w-5" alt="icon">
-    <span class="text-sm text-obito-text-secondary">{{ ucfirst($course->difficulty) }} Level</span>
-</p>
+                <img src="{{ asset('assets/images/icons/briefcase-green.svg') }}" class="flex shrink-0 w-5" alt="icon">
+                <span class="text-sm text-obito-text-secondary">{{ ucfirst($course->difficulty) }} Level</span>
+            </p>
+            
+            @auth
+                @if($course->isEnrolledByUser())
+                    <div class="mt-2">
+                        <div class="w-full bg-obito-grey rounded-full h-1.5">
+                            <div class="bg-obito-green h-1.5 rounded-full" style="width: {{ $course->progress_percentage }}%"></div>
+                        </div>
+                        <div class="flex justify-between text-xs mt-1 text-obito-text-secondary">
+                            <span>{{ $course->progress_percentage }}% Complete</span>
+                        </div>
+                    </div>
+                @endif
+            @endauth
         </div>
     </div>
 </a>

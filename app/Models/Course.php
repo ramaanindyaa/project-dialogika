@@ -61,4 +61,41 @@ class Course extends Model
             return $section->sectionContents->count();
         });
     }
+
+    public function learningProgress()
+    {
+        return $this->hasMany(LearningProgress::class);
+    }
+
+    public function getProgressPercentageAttribute()
+    {
+        if (!auth()->check()) {
+            return 0;
+        }
+        
+        $userId = auth()->id();
+        $allContentCount = $this->courseSections->flatMap->sectionContents->count();
+        
+        if ($allContentCount === 0) {
+            return 0;
+        }
+        
+        $completedCount = LearningProgress::where('user_id', $userId)
+            ->where('course_id', $this->id)
+            ->where('is_completed', true)
+            ->count();
+        
+        return $allContentCount > 0 ? round(($completedCount / $allContentCount) * 100) : 0;
+    }
+
+    public function isEnrolledByUser($userId = null)
+    {
+        $userId = $userId ?? auth()->id();
+        if (!$userId) return false;
+        
+        return $this->courseStudents()
+            ->where('user_id', $userId)
+            ->where('is_active', true)
+            ->exists();
+    }
 }

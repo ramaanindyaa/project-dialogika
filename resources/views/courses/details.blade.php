@@ -414,6 +414,33 @@
                     </div>
                 </div>
             </div>
+
+            @auth
+                @if($course->isEnrolledByUser())
+                    <div class="mt-8 border border-obito-grey rounded-[20px] p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold text-lg">Your Progress</h3>
+                            <a href="{{ route('dashboard.course.learning.progress', $course->slug) }}" class="text-obito-green hover:underline">
+                                View Details
+                            </a>
+                        </div>
+                        
+                        <div class="w-full bg-obito-grey rounded-full h-2.5 mb-2">
+                            <div class="bg-obito-green h-2.5 rounded-full" style="width: {{ $course->progress_percentage }}%"></div>
+                        </div>
+                        
+                        <div class="flex justify-between text-sm mt-1">
+                            <span>{{ $course->progress_percentage }}% Complete</span>
+                            @if($course->progress_percentage == 100)
+                                <a href="{{ route('courses.certificate', $course) }}" class="text-obito-green hover:underline">
+                                    Download Certificate
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+            @endauth
+
         </section>
     </main>
 

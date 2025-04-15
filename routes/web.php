@@ -54,6 +54,9 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/dashboard/learning/{course:slug}/finished', [CourseController::class, 'learning_finished'])
             ->name('dashboard.course.learning.finished');
+
+            Route::get('/dashboard/learning/{course:slug}/progress', [CourseController::class, 'learningProgress'])
+            ->name('dashboard.course.learning.progress');
         });
 
         Route::get('/checkout/success', [FrontController::class, 'checkout_success'])
