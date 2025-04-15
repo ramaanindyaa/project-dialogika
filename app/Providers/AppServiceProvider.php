@@ -10,6 +10,7 @@ use App\Repositories\PricingRepository;
 use App\Repositories\PricingRepositoryInterface;
 use App\Repositories\TransactionRepository;
 use App\Repositories\TransactionRepositoryInterface;
+use App\Services\LearningProgressService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;

@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Services\CourseService;
 use App\Services\LearningProgressService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -136,5 +137,40 @@ class CourseController extends Controller
         );
         
         return view('courses.learning_progress', compact('course', 'progress'));
+    }
+
+    /**
+     * Display an overview of the student's course progress
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function overview()
+    {
+        $user = Auth::user();
+        
+        // Get all courses the user is enrolled in
+        $enrolledCourses = Course::whereHas('courseStudents', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->with(['category', 'courseSections.sectionContents'])->get();
+        
+        // Get progress for each course
+        $coursesWithProgress = [];
+        foreach ($enrolledCourses as $course) {
+            $progress = $this->learningProgressService->calculateCourseProgress($course, $user->id);
+            $coursesWithProgress[] = [
+                'course' => $course,
+                'progress' => $progress
+            ];
+        }
+        
+        // Get the latest course the user was learning
+        $latestProgress = \App\Models\LearningProgress::where('user_id', $user->id)
+            ->orderBy('updated_at', 'desc')
+            ->with(['course', 'courseSection', 'sectionContent'])
+            ->first();
+            
+        $latestCourse = $latestProgress ? $latestProgress->course : null;
+        
+        return view('courses.overview', compact('coursesWithProgress', 'latestCourse'));
     }
 }
