@@ -416,30 +416,38 @@
             </div>
 
             @auth
-                @if($course->isEnrolledByUser())
-                    <div class="mt-8 border border-obito-grey rounded-[20px] p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="font-semibold text-lg">Your Progress</h3>
-                            <a href="{{ route('dashboard.course.learning.progress', $course->slug) }}" class="text-obito-green hover:underline">
-                                View Details
-                            </a>
-                        </div>
-                        
-                        <div class="w-full bg-obito-grey rounded-full h-2.5 mb-2">
-                            <div class="bg-obito-green h-2.5 rounded-full" style="width: {{ $course->progress_percentage }}%"></div>
-                        </div>
-                        
-                        <div class="flex justify-between text-sm mt-1">
-                            <span>{{ $course->progress_percentage }}% Complete</span>
-                            @if($course->progress_percentage == 100)
-                                <a href="{{ route('courses.certificate', $course) }}" class="text-obito-green hover:underline">
-                                    Download Certificate
-                                </a>
-                            @endif
-                        </div>
-                    </div>
+    @if($course->isEnrolledByUser())
+        <div class="mt-8 border border-obito-grey rounded-[14px] p-5 bg-white hover:border-obito-green transition-all duration-300">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="font-semibold text-xl">Your Progress</h3>
+                    <p class="text-obito-text-secondary text-sm mt-2">
+                        {{ $course->completed_contents_count }} of {{ $course->total_contents_count }} lessons completed
+                    </p>
+                </div>
+                <span class="text-2xl font-bold">{{ $course->progress_percentage }}%</span>
+            </div>
+            
+            <div class="progress-bar-container h-2 bg-obito-grey rounded-full mb-4">
+                <div class="progress-bar bg-obito-green h-full rounded-full" style="width: {{ $course->progress_percentage }}%"></div>
+            </div>
+            
+            <div class="flex justify-between items-center pt-2">
+                @if($course->progress_percentage == 100)
+                    <span class="bg-obito-green text-white text-xs px-5 py-4 rounded-full font-medium">Completed</span>
+                    <a href="{{ route('courses.certificate', $course) }}" class="text-obito-green hover:bg-[rgba(47,106,98,0.1)] px-4 py-2 rounded-full transition-all duration-300 font-medium hover:underline">
+                        Download Certificate
+                    </a>
+                @else
+                    <span class="text-sm text-obito-text-secondary">Keep learning to complete this course</span>
+                    <a href="{{ route('dashboard.course.learning.progress', $course->slug) }}" class="text-obito-green hover:bg-[rgba(47,106,98,0.1)] px-4 py-2 rounded-full transition-all duration-300 font-medium hover:underline">
+                        View Details
+                    </a>
                 @endif
-            @endauth
+            </div>
+        </div>
+    @endif
+@endauth
 
         </section>
     </main>
