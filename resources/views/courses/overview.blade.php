@@ -162,10 +162,10 @@
                 </div>
                 @empty
                 <div class="flex flex-col items-center justify-center py-10 bg-white rounded-[20px] border border-obito-grey">
-                    <img src="{{ asset('assets/images/icons/book-empty.svg') }}" class="w-16 h-16 mb-4" alt="No courses">
+                    <img src="{{ asset('assets/images/icons/menu-board-green.svg') }}" class="w-16 h-16 mb-4" alt="No courses">
                     <p class="text-lg font-semibold">You haven't enrolled in any course yet</p>
                     <p class="text-obito-text-secondary mt-1">Browse our catalog and start your learning journey</p>
-                    <a href="{{ route('dashboard') }}" class="mt-5 px-6 py-3 bg-obito-green text-white rounded-full hover:drop-shadow-effect transition-all duration-300">
+                    <a href="{{ route('dashboard') }}" class="mt-10 mb-5 px-5 py-3 bg-obito-green text-white rounded-full hover:drop-shadow-effect transition-all duration-300">
                         Browse Courses
                     </a>
                 </div>
