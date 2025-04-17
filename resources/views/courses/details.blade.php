@@ -5,7 +5,7 @@
     <nav id="bottom-nav" class="flex w-full bg-white border-b border-obito-grey py-[14px]">
         <ul class="flex w-full max-w-[1280px] px-[75px] mx-auto gap-3">
             <li class="group">
-                <a href="#"
+                <a href="{{ route('dashboard.course.overview') }}"
                     class="flex items-center gap-2 rounded-full border border-obito-grey py-2 px-[14px] hover:border-obito-green bg-white transition-all duration-300 group-[.active]:bg-obito-light-green group-[.active]:border-obito-light-green">
                     <img src="{{ asset('assets/images/icons/home-trend-up.svg') }}"" class="flex shrink-0 w-5" alt="icon">
                     <span>Overview</span>
@@ -19,10 +19,10 @@
                 </a>
             </li>
             <li class="group">
-                <a href="#"
+                <a href="{{ route('dashboard.quizzes.history') }}"
                     class="flex items-center gap-2 rounded-full border border-obito-grey py-2 px-[14px] hover:border-obito-green bg-white transition-all duration-300 group-[.active]:bg-obito-light-green group-[.active]:border-obito-light-green">
-                    <img src="{{ asset('assets/images/icons/message-programming.svg') }}"" class="flex shrink-0 w-5" alt="icon">
-                    <span>Quizzess</span>
+                    <img src="{{ asset('assets/images/icons/message-programming.svg') }}" class="flex shrink-0 w-5" alt="icon">
+                    <span>Quizzes</span>
                 </a>
             </li>
             <li class="group">
@@ -85,7 +85,7 @@
                     @if($course->isEnrolledByUser() && $course->progress_percentage == 100)
                     <p id="completion-badge"
                         class="flex items-center gap-[6px] rounded-[14px] py-[6px] px-2 w-fit bg-obito-light-green">
-                        <img src="{{ asset('assets/images/icons/check-circle.svg') }}" class="w-5 flex shrink-0" alt="icon">
+                        <img src="{{ asset('assets/images/icons/tick-circle-green-fill.svg') }}" class="w-5 flex shrink-0" alt="icon">
                         <span class="font-semibold text-xs text-obito-green">Course Completed</span>
                     </p>
                     @endif

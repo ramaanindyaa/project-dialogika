@@ -16,10 +16,12 @@ class QuizController extends Controller
 
         $score = null;
         $totalScore = null;
+        $reviewMode = false;
 
         if ($userQuiz && $userQuiz->is_completed) {
             $score = session('score') ?? $userQuiz->score;
             $totalScore = session('totalScore') ?? $quiz->questions->count() * 20;
+            $reviewMode = true; // Enable review mode
         }
 
         // Cari section dan content selanjutnya
@@ -47,7 +49,7 @@ class QuizController extends Controller
             }
         }
 
-        return view('quizzes.show', compact('quiz', 'userQuiz', 'score', 'totalScore', 'nextContent'));
+        return view('quizzes.show', compact('quiz', 'userQuiz', 'score', 'totalScore', 'nextContent', 'reviewMode'));
     }
 
     public function submit(Request $request, Quiz $quiz)
@@ -94,5 +96,23 @@ class QuizController extends Controller
         QuizQuestion::create($validated);
 
         return redirect()->back()->with('success', 'Quiz question added successfully!');
+    }
+
+    public function history()
+    {
+        // Get the authenticated user
+        $user = auth()->user();
+        
+        // Get all completed quizzes for the user
+        $completedQuizzes = UserQuiz::where('user_id', $user->id)
+            ->where('is_completed', true)
+            ->with(['quiz.courseSection.course', 'quiz.questions'])
+            ->latest()
+            ->get();
+        
+        // Group quizzes by course for better organization
+        $quizzesByCourse = $completedQuizzes->groupBy('quiz.courseSection.course.name');
+        
+        return view('quizzes.history', compact('quizzesByCourse'));
     }
 }

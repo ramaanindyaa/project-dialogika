@@ -19,10 +19,10 @@
                 </a>
             </li>
             <li class="group">
-                <a href="#"
+                <a href="{{ route('dashboard.quizzes.history') }}"
                     class="flex items-center gap-2 rounded-full border border-obito-grey py-2 px-[14px] hover:border-obito-green bg-white transition-all duration-300 group-[.active]:bg-obito-light-green group-[.active]:border-obito-light-green">
                     <img src="{{ asset('assets/images/icons/message-programming.svg') }}" class="flex shrink-0 w-5" alt="icon">
-                    <span>Quizzess</span>
+                    <span>Quizzes</span>
                 </a>
             </li>
             <li class="group">
@@ -52,7 +52,7 @@
                     <div class="relative flex shrink-0 w-[240px] h-[150px] rounded-[14px] overflow-hidden bg-obito-grey">
                         <img src="{{ Storage::url($latestCourse->thumbnail) }}" class="w-full h-full object-cover" alt="thumbnail">
                         <p class="absolute flex m-[10px] bottom-0 w-[calc(100%-20px)] items-center gap-0.5 bg-white rounded-[14px] py-[6px] px-2">
-                            <img src="{{ asset('assets/images/icons/play-circle.svg') }}" class="flex shrink-0 w-5" alt="icon">
+                            <img src="{{ asset('assets/images/icons/play-circle-fill.svg') }}" class="flex shrink-0 w-5" alt="icon">
                             <span class="font-semibold text-xs leading-[18px]">Continue where you left off</span>
                         </p>
                     </div>

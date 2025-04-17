@@ -31,6 +31,15 @@
                     @endif
                 @endif
 
+                @if($reviewMode)
+                    <div class="review-header bg-white p-4 rounded-[14px] mb-4">
+                        <h3 class="font-semibold text-lg">Quiz Review</h3>
+                        <p class="text-sm text-obito-text-secondary">
+                            You scored {{ $score }}% on this quiz
+                        </p>
+                    </div>
+                @endif
+
                 <form action="{{ route('quizzes.submit', $quiz) }}" method="POST" class="flex flex-col gap-6 mt-6">
                     @csrf
                     @foreach ($quiz->questions as $index => $question)
@@ -48,6 +57,23 @@
                                     </label>
                                 @endforeach
                             </div>
+
+                            @if($reviewMode)
+                                <div class="answer-review mt-2 pt-2 border-t">
+                                    <p class="text-sm">
+                                        <span class="font-semibold">Your answer:</span> 
+                                        {{ $userQuiz->answers[$question->id] ?? 'Not answered' }}
+                                        
+                                        @if(isset($userQuiz->answers[$question->id]) && $userQuiz->answers[$question->id] == $question->correct_answer)
+                                            <span class="text-obito-green"> (Correct)</span>
+                                        @else
+                                            <span class="text-obito-red"> (Incorrect)</span>
+                                            <br>
+                                            <span class="font-semibold">Correct answer:</span> {{ $question->correct_answer }}
+                                        @endif
+                                    </p>
+                                </div>
+                            @endif
                         </div>
                     @endforeach
 

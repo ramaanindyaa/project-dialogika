@@ -70,6 +70,9 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/booking/payment/midtrans', [FrontController::class, 'paymentStoreMidtrans'])
         ->name('front.payment_store_midtrans');
+
+        Route::get('/dashboard/quizzes', [QuizController::class, 'history'])
+        ->name('dashboard.quizzes.history');
     });
 });
 

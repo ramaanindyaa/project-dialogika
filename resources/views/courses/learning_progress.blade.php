@@ -44,7 +44,7 @@
                 <div class="progress-stat-card hover:border-obito-green transition-all duration-300">
                     <div class="flex gap-4 items-center">
                         <div class="flex items-center justify-center w-12 h-12 bg-obito-light-green rounded-full shrink-0">
-                            <img src="{{ asset('assets/images/icons/folder-open.svg') }}" class="w-6 h-6" alt="sections">
+                            <img src="{{ asset('assets/images/icons/note-favorite-green.svg') }}" class="w-6 h-6" alt="sections">
                         </div>
                         <div>
                             <p class="progress-stat-label font-medium">Completed Sections</p>
@@ -70,7 +70,7 @@
                 <div class="progress-stat-card hover:border-obito-green transition-all duration-300">
                     <div class="flex gap-4 items-center">
                         <div class="flex items-center justify-center w-12 h-12 bg-obito-light-green rounded-full shrink-0">
-                            <img src="{{ asset('assets/images/icons/chart-success.svg') }}" class="w-6 h-6" alt="progress">
+                            <img src="{{ asset('assets/images/icons/buildings-green-fill.svg') }}" class="w-6 h-6" alt="progress">
                         </div>
                         <div>
                             <p class="progress-stat-label font-medium">Progress</p>

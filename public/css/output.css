@@ -2083,3 +2083,28 @@ article ol {
     font-size: 1.25rem;
     line-height: 1.75rem;
 }
+
+/* Add to public/css/content.css or create a new file and import it */
+
+.quiz-card {
+    background-color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quiz-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.quiz-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+}
+
+.score-badge {
+    min-width: 60px;
+    text-align: center;
+}
