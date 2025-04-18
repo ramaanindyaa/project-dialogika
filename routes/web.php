@@ -6,6 +6,7 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\CertificatePageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
@@ -27,6 +28,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::middleware('role:student')->group(function () {
+        // Add these two new routes for certificates page
+        Route::get('/dashboard/certificates', [CertificatePageController::class, 'index'])
+            ->name('dashboard.certificates');
+        
+        Route::get('/certificates/preview/{course}', [CertificatePageController::class, 'viewCertificate'])
+            ->name('courses.certificate.preview');
+            
         Route::get('/dashboard/subscriptions/', [DashboardController::class, 'subscriptions'])
         ->name('dashboard.subscriptions');
 

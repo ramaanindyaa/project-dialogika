@@ -26,7 +26,7 @@
                 </a>
             </li>
             <li class="group">
-                <a href="#"
+                <a href="{{ route('dashboard.certificates') }}"
                     class="flex items-center gap-2 rounded-full border border-obito-grey py-2 px-[14px] hover:border-obito-green bg-white transition-all duration-300 group-[.active]:bg-obito-light-green group-[.active]:border-obito-light-green">
                     <img src="{{ asset('assets/images/icons/cup.svg') }}" class="flex shrink-0 w-5" alt="icon">
                     <span>Certificates</span>
@@ -76,7 +76,7 @@
                     
                     <div class="progress-section-content">
                         @foreach($quizzes as $userQuiz)
-                            <div class="quiz-card p-4 border border-obito-grey rounded-[14px] mb-4 hover:border-obito-green transition-all duration-300">
+                            <div class="quiz-card p-4 border border-obito-grey rounded-[14px] mb-5 hover:border-obito-green transition-all duration-300">
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center gap-3">
                                         <div class="quiz-icon bg-obito-light-green p-3 rounded-full">

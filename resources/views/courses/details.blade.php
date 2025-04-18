@@ -26,9 +26,9 @@
                 </a>
             </li>
             <li class="group">
-                <a href="#"
+                <a href="{{ route('dashboard.certificates') }}"
                     class="flex items-center gap-2 rounded-full border border-obito-grey py-2 px-[14px] hover:border-obito-green bg-white transition-all duration-300 group-[.active]:bg-obito-light-green group-[.active]:border-obito-light-green">
-                    <img src="{{ asset('assets/images/icons/cup.svg') }}"" class="flex shrink-0 w-5" alt="icon">
+                    <img src="{{ asset('assets/images/icons/cup.svg') }}" class="flex shrink-0 w-5" alt="icon">
                     <span>Certificates</span>
                 </a>
             </li>
@@ -130,10 +130,62 @@
                     <span class="font-semibold">Access Course</span>
                 </a>
             @elseif($course->progress_percentage > 0)
-                <a href="{{ route('dashboard.course.learning.progress', $course->slug) }}"
-                    class="rounded-full py-[10px] px-5 gap-[10px] bg-obito-green hover:drop-shadow-effect transition-all duration-300">
-                    <span class="font-semibold text-white">Continue Learning</span>
-                </a>
+                @php
+                    // Find the latest completed content to continue from the next one
+                    $lastCompletedProgress = $course->learningProgress()
+                        ->where('user_id', auth()->id())
+                        ->where('is_completed', true)
+                        ->orderBy('updated_at', 'desc')
+                        ->first();
+                    
+                    // Get the section and content to continue from
+                    $continueSection = $lastCompletedProgress ? $lastCompletedProgress->courseSection : $course->courseSections->first();
+                    $continueContent = null;
+                    
+                    if ($lastCompletedProgress) {
+                        // Try to find the next content in the same section
+                        $continueContent = $continueSection->sectionContents()
+                            ->where('id', '>', $lastCompletedProgress->section_content_id)
+                            ->orderBy('id')
+                            ->first();
+                        
+                        // If no next content in current section, look for first content in next section
+                        if (!$continueContent) {
+                            $nextSection = $course->courseSections()
+                                ->where('id', '>', $continueSection->id)
+                                ->orderBy('id')
+                                ->first();
+                                
+                            if ($nextSection) {
+                                $continueSection = $nextSection;
+                                $continueContent = $nextSection->sectionContents()->orderBy('id')->first();
+                            }
+                        }
+                    }
+                    
+                    // If no content found yet (maybe all complete but < 100%), use first section's first content
+                    if (!$continueContent) {
+                        $firstSection = $course->courseSections->first();
+                        if ($firstSection) {
+                            $continueSection = $firstSection;
+                            $continueContent = $firstSection->sectionContents()->orderBy('id')->first();
+                        }
+                    }
+                @endphp
+                
+                @if($continueContent)
+                    <a href="{{ route('dashboard.course.learning', [
+                        'course' => $course->slug,
+                        'courseSection' => $continueSection->id,
+                        'sectionContent' => $continueContent->id
+                    ]) }}" class="rounded-full py-[10px] px-5 gap-[10px] bg-obito-green hover:drop-shadow-effect transition-all duration-300">
+                        <span class="font-semibold text-white">Continue Learning</span>
+                    </a>
+                @else
+                    <a href="{{ route('dashboard.course.learning.progress', $course->slug) }}" class="rounded-full py-[10px] px-5 gap-[10px] bg-obito-green hover:drop-shadow-effect transition-all duration-300">
+                        <span class="font-semibold text-white">Continue Learning</span>
+                    </a>
+                @endif
                 <a href="#"
                     class="rounded-full border border-obito-grey py-[10px] px-5 gap-[10px] bg-white hover:border-obito-green transition-all duration-300">
                     <span class="font-semibold">Add to Bookmark</span>
@@ -484,25 +536,78 @@
             </div>
             
             <div class="flex justify-between items-center pt-2">
-                @if($course->progress_percentage == 100)
-                    <span class="bg-obito-green text-white text-xs px-5 py-4 rounded-full font-medium">Completed</span>
-                    <a href="{{ route('courses.certificate', $course) }}" class="bg-obito-light-green text-obito-green py-2 px-5 rounded-full transition-all duration-300 font-medium hover:bg-[rgba(47,106,98,0.2)]">
-                        Download Certificate
-                    </a>
-                @else
-                    <span class="text-sm text-obito-text-secondary">Keep learning to complete this course</span>
+    @if($course->progress_percentage == 100)
+        <span class="bg-obito-green text-white text-xs px-5 py-4 rounded-full font-medium">Completed</span>
+        <a href="{{ route('courses.certificate', $course) }}" class="bg-obito-light-green text-obito-green py-2 px-5 rounded-full transition-all duration-300 font-medium hover:bg-[rgba(47,106,98,0.2)]">
+            Download Certificate
+        </a>
+    @else
+        <span class="text-sm text-obito-text-secondary">Keep learning to complete this course</span>
+        
+        @if($course->progress_percentage > 0)
+            @php
+                // Find the latest completed content to continue from the next one
+                $lastCompletedProgress = $course->learningProgress()
+                    ->where('user_id', auth()->id())
+                    ->where('is_completed', true)
+                    ->orderBy('updated_at', 'desc')
+                    ->first();
+                
+                // Get the section and content to continue from
+                $continueSection = $lastCompletedProgress ? $lastCompletedProgress->courseSection : $course->courseSections->first();
+                $continueContent = null;
+                
+                if ($lastCompletedProgress) {
+                    // Try to find the next content in the same section
+                    $continueContent = $continueSection->sectionContents()
+                        ->where('id', '>', $lastCompletedProgress->section_content_id)
+                        ->orderBy('id')
+                        ->first();
                     
-                    @if($course->progress_percentage > 0)
-                        <a href="{{ route('dashboard.course.learning.progress', $course->slug) }}" class="bg-obito-green text-white py-2 px-5 rounded-full hover:drop-shadow-effect transition-all duration-300">
-                            Continue Learning
-                        </a>
-                    @else
-                        <a href="{{ route('dashboard.course.join', $course->slug) }}" class="bg-obito-green text-white py-2 px-5 rounded-full hover:drop-shadow-effect transition-all duration-300">
-                            Start Learning
-                        </a>
-                    @endif
-                @endif
-            </div>
+                    // If no next content in current section, look for first content in next section
+                    if (!$continueContent) {
+                        $nextSection = $course->courseSections()
+                            ->where('id', '>', $continueSection->id)
+                            ->orderBy('id')
+                            ->first();
+                            
+                        if ($nextSection) {
+                            $continueSection = $nextSection;
+                            $continueContent = $nextSection->sectionContents()->orderBy('id')->first();
+                        }
+                    }
+                }
+                
+                // If no content found yet (maybe all complete but < 100%), use first section's first content
+                if (!$continueContent) {
+                    $firstSection = $course->courseSections->first();
+                    if ($firstSection) {
+                        $continueSection = $firstSection;
+                        $continueContent = $firstSection->sectionContents()->orderBy('id')->first();
+                    }
+                }
+            @endphp
+            
+            @if($continueContent)
+                <a href="{{ route('dashboard.course.learning', [
+                    'course' => $course->slug,
+                    'courseSection' => $continueSection->id,
+                    'sectionContent' => $continueContent->id
+                ]) }}" class="bg-obito-green text-white py-2 px-5 rounded-full hover:drop-shadow-effect transition-all duration-300">
+                    Continue Learning
+                </a>
+            @else
+                <a href="{{ route('dashboard.course.learning.progress', $course->slug) }}" class="bg-obito-green text-white py-2 px-5 rounded-full hover:drop-shadow-effect transition-all duration-300">
+                    Continue Learning
+                </a>
+            @endif
+        @else
+            <a href="{{ route('dashboard.course.join', $course->slug) }}" class="bg-obito-green text-white py-2 px-5 rounded-full hover:drop-shadow-effect transition-all duration-300">
+                Start Learning
+            </a>
+        @endif
+    @endif
+</div>
         </div>
     @endif
 @endauth

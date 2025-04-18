@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Completion Certificate</title>
+    <title>Certificate</title>
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
     <style>
         @font-face {
@@ -11,114 +11,130 @@
             src: url('{{ storage_path('fonts/AlexBrush-Regular.ttf') }}') format('truetype');
         }
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
+            color: #0a0723;
+            padding: 20px; /* Tambahkan padding untuk memberikan ruang */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto; /* Ubah dari 100vh ke auto */
         }
         .certificate-container {
-            width: 800px;
-            height: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            border: 20px solid #2F6A62;
-            padding: 50px;
-            text-align: center;
             position: relative;
+            background-color: #ffffff;
+            border: 10px solid #2f6a62;
+            border-radius: 20px;
+            padding: 20px;
+            width: 650px;
+            height: 880px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin: 5px 20px 0px -20px; /* Pastikan margin otomatis */
         }
-        .logo {
-            width: 150px;
-            margin-bottom: 30px;
-        }
-        .certificate-title {
-            font-size: 40px;
+        .certificate-header {
+            font-size: 24pt;
             font-weight: bold;
-            color: #2F6A62;
-            margin-bottom: 20px;
+            color: #2f6a62;
+            margin-bottom: 10px;
+            text-transform: uppercase;
         }
         .certificate-subtitle {
-            font-size: 24px;
-            color: #6c757d;
-            margin-bottom: 40px;
+            font-size: 14pt;
+            color: #6a6f7c;
+            margin-bottom: 15px;
         }
-        .recipient-name {
-            font-size: 32px;
+        .certificate-name {
+            font-size: 22pt;
             font-weight: bold;
-            color: #343a40;
-            margin-bottom: 20px;
+            color: #0a0723;
+            margin-bottom: 15px;
         }
-        .course-name {
-            font-size: 24px;
-            font-weight: bold;
-            color: #343a40;
-            margin-bottom: 40px;
+        .certificate-course {
+            font-size: 16pt;
+            color: #2f6a62;
+            margin-bottom: 15px;
         }
-        .signatures {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 60px;
+        .certificate-date {
+            font-size: 12pt;
+            color: #6a6f7c;
+            margin-bottom: 30px;
+        }
+        .decorative-line {
+            width: 60%;
+            height: 2px;
+            background-color: #2f6a62;
+            margin: 20px auto;
+        }
+        .certificate-description {
+            font-size: 12pt;
+            color: #6a6f7c;
+            margin-bottom: 30px;
+            line-height: 1.5;
         }
         .signature {
-            width: 40%;
-            border-top: 2px solid #343a40;
-            padding-top: 10px;
-            font-weight: bold;
+            margin-top: 20px;
+            font-size: 18pt;
+            color: #6a6f7c;
+            font-family: 'AlexBrush', cursive;
+            text-align: center;
         }
-        .date {
-            margin-top: 40px;
-            font-size: 18px;
-            color: #6c757d;
+        .signature-line {
+            margin-top: 10px;
+            border-top: 1px solid #2f6a62;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .certificate-footer {
-            margin-top: 40px;
-            font-size: 14px;
-            color: #6c757d;
+        .logo {
+            width: 80px;
+            margin-bottom: 20px;
         }
-        .watermark {
+        .footer-note {
+            font-size: 10pt;
+            color: #6a6f7c;
+            margin-top: 20px;
+        }
+        .background-shape {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 250px;
+            background: #2f6a62;
+            border-radius: 50%;
             opacity: 0.1;
-            z-index: -1;
+        }
+        .background-shape.top-left {
+            top: -50px;
+            left: -50px;
+        }
+        .background-shape.bottom-right {
+            bottom: -50px;
+            right: -50px;
         }
     </style>
 </head>
 <body>
     <div class="certificate-container">
-        <img src="{{ public_path('assets/images/logo.png') }}" alt="Dialogika Logo" class="logo">
-        
-        <div class="watermark">
-            <img src="{{ public_path('assets/images/logo.png') }}" alt="Watermark" width="400">
+        <div class="background-shape top-left"></div>
+        <div class="background-shape bottom-right"></div>
+        <img src="{{ public_path('assets/images/logos/logo-64-big.png') }}" alt="Logo" class="logo">
+        <h1 class="certificate-header">Certificate of Completion</h1>
+        <p class="certificate-subtitle">This certificate is awarded to</p>
+        <h2 class="certificate-name">{{ $userName }}</h2>
+        <p class="certificate-course">For successfully completing the course:</p>
+        <h3 class="certificate-course">{{ $courseName }}</h3>
+        <p class="certificate-date">Completed on: {{ $completionDate }}</p>
+        <div class="decorative-line"></div>
+        <p class="certificate-description">
+            In recognition of your dedication and hard work in completing this course. Your efforts have demonstrated a commitment to learning and growth.
+        </p>
+        <div class="signature">
+            <p>{{ $mentorName }}</p>
+            <div class="signature-line"></div>
         </div>
-        
-        <div class="certificate-title">Certificate of Completion</div>
-        <div class="certificate-subtitle">This certifies that</div>
-        
-        <div class="recipient-name">{{ $userName }}</div>
-        
-        <div class="certificate-subtitle">has successfully completed the course</div>
-        
-        <div class="course-name">{{ $courseName }}</div>
-        
-        <div class="signatures">
-            <div class="signature">
-                {{ $mentorName }}
-                <br>
-                Course Instructor
-            </div>
-            <div class="signature">
-                Dialogika Management
-                <br>
-                CEO
-            </div>
-        </div>
-        
-        <div class="date">Completed on: {{ $completionDate }}</div>
-        
-        <div class="certificate-footer">
-            Certificate ID: DLG-{{ str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT) }}-{{ now()->format('Ymd') }}
-        </div>
+        <p>Mentor</p>
+        <p class="footer-note">This certificate is generated by Dialogika Public Speaking Online Course</p>
     </div>
 </body>
 </html>
