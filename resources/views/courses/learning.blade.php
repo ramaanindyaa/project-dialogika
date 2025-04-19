@@ -36,7 +36,7 @@
         </div>
         
         <!-- Lesson Navigator -->
-        <div id="lessons-container" class="h-full overflow-y-auto [&::-webkit-scrollbar]:hidden w-[260px]">
+        <div id="lessons-container" class="h-full overflow-y-auto w-[260px]">
             <nav class="px-5 pb-[33px] flex flex-col gap-4">
                 <!-- Section Contents -->
                 @foreach($course->courseSections as $section)
@@ -47,7 +47,7 @@
                     </button>
                     
                     <div id="section-{{ $section->id }}" class="accordion-content {{ $currentSection && $currentSection->id == $section->id ? 'open' : '' }} pl-2">
-                        <ul class="flex flex-col gap-3">
+                        <ul class="flex flex-col gap-3 pb-10">
                             <!-- Pre-Quiz -->
                             @if ($section->quizzes->where('type', 'pre')->first())
                                 @php
