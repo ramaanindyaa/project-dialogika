@@ -711,6 +711,11 @@ video {
     display: none;
 }
 
+.size-1 {
+    width: 30px;
+    height: 30px;
+}
+
 .size-5 {
     width: 1.25rem;
     height: 1.25rem;

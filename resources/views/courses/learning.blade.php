@@ -80,9 +80,9 @@
                                             hover:bg-[rgba(47,106,98,0.05)] transition-all duration-300">
                                             
                                             @if($content->type === 'video')
-                                                <img src="{{ asset('assets/images/icons/video.svg') }}" alt="video" class="size-4 shrink-0 group-[&.active]:brightness-200" />
+                                                <img src="{{ asset('assets/images/icons/video.svg') }}" alt="video" class="size-1 shrink-0 group-[&.active]:brightness-200" />
                                             @else
-                                                <img src="{{ asset('assets/images/icons/document-text.svg') }}" alt="text" class="size-4 shrink-0 group-[&.active]:brightness-200" />
+                                                <img src="{{ asset('assets/images/icons/document-text.svg') }}" alt="text" class="size-1 shrink-0 group-[&.active]:brightness-200" />
                                             @endif
                                             
                                             <h3 class="text-sm font-medium leading-tight line-clamp-1 flex-1">
