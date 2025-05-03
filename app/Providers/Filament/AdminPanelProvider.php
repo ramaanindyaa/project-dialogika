@@ -27,6 +27,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName('Dialogika')
+            ->brandLogo(asset('assets/images/logos/logo.svg'))
+            ->darkModeBrandLogo(asset('assets/images/logos/logo-64-big.png'))
+            ->favicon(asset('assets/images/logos/logo-64-big.png'))
             ->colors([
                 'primary' => Color::Amber,
             ])
