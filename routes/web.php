@@ -82,6 +82,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/quizzes', [QuizController::class, 'history'])
         ->name('dashboard.quizzes.history');
     });
+
+    // Portfolio routes
+    Route::get('/dashboard/portfolios', [App\Http\Controllers\PortfolioController::class, 'index'])->name('dashboard.portfolios');
+    Route::get('/dashboard/portfolios/create', [App\Http\Controllers\PortfolioController::class, 'create'])->name('dashboard.portfolios.create');
+    Route::post('/dashboard/portfolios', [App\Http\Controllers\PortfolioController::class, 'store'])->name('dashboard.portfolios.store');
+    Route::get('/dashboard/portfolios/{slug}', [App\Http\Controllers\PortfolioController::class, 'show'])->name('dashboard.portfolios.show');
 });
 
 require __DIR__.'/auth.php';

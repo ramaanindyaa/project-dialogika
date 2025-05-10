@@ -188,6 +188,24 @@
                     <span class="font-semibold">Get Certificate</span>
                 </a>
             </div>
+            <div class="mt-8 p-6 bg-white border border-obito-green rounded-[20px] flex gap-6 items-center">
+                <div class="flex items-center justify-center w-16 h-16 bg-obito-light-green rounded-full shrink-0">
+                    <img src="{{ asset('assets/images/icons/cup-green-fill.svg') }}" class="w-8 h-8" alt="completed">
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-bold text-lg">Congratulations! You've completed this course.</h4>
+                    <p class="text-obito-text-secondary mt-1">You can now showcase your skills by creating a portfolio for this course.</p>
+                    
+                    <div class="mt-4 flex gap-3">
+                        <a href="{{ route('dashboard.certificates') }}" class="rounded-full py-2 px-5 border border-obito-grey hover:border-obito-green transition-all duration-300">
+                            <span class="font-semibold">View Certificate</span>
+                        </a>
+                        <a href="{{ route('dashboard.portfolios.create') }}?course_id={{ $course->id }}" class="text-white rounded-full py-2 px-5 bg-obito-green hover:drop-shadow-effect transition-all duration-300">
+                            <span class="font-semibold">Create Portfolio</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
             @endif
         </div>
     </section>

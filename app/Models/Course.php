@@ -98,4 +98,20 @@ class Course extends Model
             ->where('is_active', true)
             ->exists();
     }
+
+    public function portfolios(): HasMany
+    {
+        return $this->hasMany(Portfolio::class);
+    }
+
+    /**
+     * Check if course is 100% completed by the current user
+     */
+    public function isFullyCompletedByUser($userId = null)
+    {
+        $userId = $userId ?? auth()->id();
+        if (!$userId) return false;
+        
+        return $this->progress_percentage == 100;
+    }
 }

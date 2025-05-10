@@ -33,7 +33,7 @@
                 </a>
             </li>
             <li class="group">
-                <a href="#"
+                <a href="{{ route('dashboard.portfolios') }}"
                     class="flex items-center gap-2 rounded-full border border-obito-grey py-2 px-[14px] hover:border-obito-green bg-white transition-all duration-300 group-[.active]:bg-obito-light-green group-[.active]:border-obito-light-green">
                     <img src="{{ asset('assets/images/icons/ruler&pen.svg') }}" class="flex shrink-0 w-5" alt="icon">
                     <span>Portfolios</span>

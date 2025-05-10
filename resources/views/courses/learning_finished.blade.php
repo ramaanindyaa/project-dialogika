@@ -8,7 +8,7 @@
     <main class="relative mt-[178px] flex flex-col gap-[30px] p-[30px] w-[560px] rounded-[20px] border bg-white border-obito-grey">
         <img src="{{ asset('assets/images/icons/cup-green-fill.svg') }}" alt="icon" class="size-[60px] shrink-0 mx-auto" />
         <div class="mx-auto flex w-[500px] flex-col gap-[10px] items-center">
-            <h1 class="text-center font-bold text-[28px] leading-[42px]">What a Day! Now<br>You’re Ready to Work</h1>
+            <h1 class="text-center font-bold text-[28px] leading-[42px]">What a Day! Now<br>You're Ready to Work</h1>
             <p class="text-center text-obito-text-secondary leading-[28px]">Anda telah menyelesaikan materi kelas dengan baik selanjutnya dapat membuat portfolio dan mengikuti magang</p>
         </div>
         <div id="card" class="flex items-center pt-[10px] pb-[10px] pl-[10px] pr-4 border border-obito-grey rounded-[20px] gap-4">
@@ -28,11 +28,18 @@
             </div>
         </div>
         <div class="buttons grid grid-cols-2 gap-[12px]">
-            <a href="{{ route('courses.certificate', $course->id) }}" class="border border-obito-grey rounded-full py-[10px] flex justify-center items-center hover:border-obito-green transition-all duration-300">
+            <a href="{{ route('dashboard.certificates') }}" class="border border-obito-grey rounded-full py-[10px] flex justify-center items-center hover:border-obito-green transition-all duration-300">
                 <span class="font-semibold">Get My Certificate</span>
             </a>
-            <a href="{{ route('dashboard') }}" class="text-white rounded-full py-[10px] flex justify-center items-center bg-obito-green hover:drop-shadow-effect transition-all duration-300">
-                <span class="font-semibold">Explore Courses</span>
+            <a href="{{ route('dashboard.portfolios.create') }}?course_id={{ $course->id }}" class="text-white rounded-full py-[10px] flex justify-center items-center bg-obito-green hover:drop-shadow-effect transition-all duration-300">
+                <span class="font-semibold">Create Portfolio</span>
+            </a>
+        </div>
+        
+        <div class="mt-4 flex justify-center">
+            <a href="{{ route('dashboard') }}" class="flex items-center gap-2 px-5 py-3 bg-[#F8FAF9] border border-obito-grey rounded-full hover:border-obito-green hover:shadow-[0px_4px_12px_rgba(0,0,0,0.05)] transition-all duration-300">
+                <img src="{{ asset('assets/images/icons/back.svg') }}" alt="back" class="w-5 h-5">
+                <span class="font-semibold text-obito-green">Back to Dashboard</span>
             </a>
         </div>
     </main>
