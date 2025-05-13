@@ -34,7 +34,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Add this to preserve flash messages for an extra request
+        if (session('success')) {
+            session()->flash('success', session('success'));
+        }
+        
         Transaction::observe(TransactionObserver::class);
 
         // // Membagikan variabel $user ke semua view yang menggunakan 'navigation-auth'

@@ -31,7 +31,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'occupation' => ['required', 'string', 'max:255'],
             'photo' => ['required', 'image', 'mimes:png,jpg,jpeg'],
@@ -53,8 +53,10 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Remove the auto login
+        // Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // Instead, redirect to login with a success message
+        return redirect()->route('login')->with('success', 'Pendaftaran Berhasil Mohon Login Menggunakan Akun Yang Sudah Dibuat.');
     }
 }
